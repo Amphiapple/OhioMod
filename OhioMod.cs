@@ -65,13 +65,13 @@ public class OhioMod : BloonsTD6Mod
                 //Range tester
                 if (tower.baseId == "IceMonkey" && tower.HasUpgrade(1, 3))
                 {
-                    tower.range *= (float)2.5;
+                    tower.range *= (float)1.5;
 
                     foreach (var bev in tower.behaviors)
                     {
                         try
                         {
-                            bev.Cast<AttackModel>().range *= (float)2.5;
+                            bev.Cast<AttackModel>().range *= (float)1.5;
                         }
                         catch
                         {
@@ -85,7 +85,6 @@ public class OhioMod : BloonsTD6Mod
             foreach (UpgradeModel upgrade in Game.instance.model.upgrades)
             {
                 //Cost tester
-                Console.WriteLine(upgrade.name);
                 if (upgrade.name == "Super Monkey Fan Club")
                 {
                     upgrade.cost = 3000;
