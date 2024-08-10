@@ -53,6 +53,15 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (TowerModel tower in Game.instance.model.towers)
             {
+                if (tower.baseId == "CaptainChurchill")
+                {
+                    tower.cost = 1000;
+                }
+                if (tower.baseId == "Corvus")
+                {
+                    tower.cost = 2000;
+                }
+
                 //Range tester
                 if (tower.baseId == "IceMonkey" && tower.HasUpgrade(1, 3))
                 {
@@ -101,6 +110,10 @@ public class OhioMod : BloonsTD6Mod
                 {
                     upgrade.cost = 3000;
                 }
+                if (upgrade.name == "Absolute Zero")
+                {
+                    upgrade.cost = 16000;
+                }
                 if (upgrade.name == "Cryo Cannon")
                 {
                     upgrade.cost = 1750;
@@ -121,6 +134,10 @@ public class OhioMod : BloonsTD6Mod
                 {
                     upgrade.cost = 4000;
                 }
+                if (upgrade.name == "Maim MOAB")
+                {
+                    upgrade.cost = 5000;
+                }
                 if (upgrade.name == "Elite Defender")
                 {
                     upgrade.cost = 12000;
@@ -129,7 +146,7 @@ public class OhioMod : BloonsTD6Mod
                 {
                     upgrade.cost = 28000;
                 }
-                if (upgrade.name == "Carrier Flagship")
+                if (upgrade.name == "Buccaneer-Carrier Flagship")
                 {
                     upgrade.cost = 26000;
                 }
@@ -141,13 +158,25 @@ public class OhioMod : BloonsTD6Mod
                 {
                     upgrade.cost = 32000;
                 }
-                if (upgrade.name == "Maim Moab")
+                if (upgrade.name == "Neva-Miss Targeting")
                 {
-                    upgrade.cost = 5000;
+                    upgrade.cost = 2000;
+                }
+                if (upgrade.name == "Spectre")
+                {
+                    upgrade.cost = 24000;
                 }
                 if (upgrade.name == "Flying Fortress")
                 {
                     upgrade.cost = 75000;
+                }
+                if (upgrade.name == "Apache Dartship")
+                {
+                    upgrade.cost = 12000;
+                }
+                if (upgrade.name == "Apache Prime")
+                {
+                    upgrade.cost = 50000;
                 }
                 if (upgrade.name == "Support Chinook")
                 {
@@ -158,6 +187,14 @@ public class OhioMod : BloonsTD6Mod
                     upgrade.cost = 25000;
                 }
                 if (upgrade.name == "MOAB Shove")
+                {
+                    upgrade.cost = 3500;
+                }
+                if (upgrade.name == "Shattering Shells")
+                {
+                    upgrade.cost = 6000;
+                }
+                if (upgrade.name == "Laser Cannon")
                 {
                     upgrade.cost = 3500;
                 }
@@ -185,13 +222,33 @@ public class OhioMod : BloonsTD6Mod
                 {
                     upgrade.cost = 4500;
                 }
+                if (upgrade.name == "Laser Blasts")
+                {
+                    upgrade.cost = 1000;
+                }
                 if (upgrade.name == "Sun Avatar")
                 {
                     upgrade.cost = 17500;
                 }
+                if (upgrade.name == "Epic Range")
+                {
+                    upgrade.cost = 2000;
+                }
+                if (upgrade.name == "Knockback")
+                {
+                    upgrade.cost = 4000;
+                }
                 if (upgrade.name == "Bloon Sabotage")
                 {
                     upgrade.cost = 6000;
+                }
+                if (upgrade.name == "Transforming Tonic")
+                {
+                    upgrade.cost = 3500;
+                }
+                if (upgrade.name == "Total Transformation")
+                {
+                    upgrade.cost = 35000;
                 }
                 if (upgrade.name == "Bloon Master Alchemist")
                 {
@@ -211,7 +268,63 @@ public class OhioMod : BloonsTD6Mod
                 }
                 if (upgrade.name == "Riptide Champion")
                 {
-                    upgrade.cost = 2000;
+                    upgrade.cost = 1500;
+                }
+                if (upgrade.name == "Arctic Knight")
+                {
+                    upgrade.cost = 5555;
+                }
+                if (upgrade.name == "Popseidon")
+                {
+                    upgrade.cost = 55000;
+                }
+                if (upgrade.name == "Alluring Melody")
+                {
+                    upgrade.cost = 1400;
+                }
+                if (upgrade.name == "Symphonic Resonance")
+                {
+                    upgrade.cost = 6000;
+                }
+                if (upgrade.name == "Long Life Spikes")
+                {
+                    upgrade.cost = 800;
+                }
+                if (upgrade.name == "Deadly Spikes")
+                {
+                    upgrade.cost = 2500;
+                }
+                if (upgrade.name == "Perma-Spike")
+                {
+                    upgrade.cost = 32000;
+                }
+                if (upgrade.name == "Monkey Intelligence Bureau")
+                {
+                    upgrade.cost = 4000;
+                }
+                if (upgrade.name == "Homeland Defense")
+                {
+                    upgrade.cost = 30000;
+                }
+                if (upgrade.name == "Sentry Champion")
+                {
+                    upgrade.cost = 28000;
+                }
+                if (upgrade.name == "Ultraboost")
+                {
+                    upgrade.cost = 37000;
+                }
+                if (upgrade.name == "Megalodon")
+                {
+                    upgrade.cost = 25000;
+                }
+                if (upgrade.name == "Giant Condor")
+                {
+                    upgrade.cost = 12500;
+                }
+                if (upgrade.name == "Pouakai")
+                {
+                    upgrade.cost = 12500;
                 }
             }
         }
