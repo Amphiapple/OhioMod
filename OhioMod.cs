@@ -42,6 +42,7 @@ public class OhioMod : BloonsTD6Mod
     public override void OnApplicationStart()
     {
         base.OnApplicationStart();
+        Console.WriteLine("Entering Ohio...");
     }
 
     [HarmonyPatch(typeof(TitleScreen), "Start")]
@@ -51,16 +52,10 @@ public class OhioMod : BloonsTD6Mod
         [HarmonyPostfix]
         public static void Postfix()
         {
+            var models = Game.instance.model;
+
             foreach (TowerModel tower in Game.instance.model.towers)
             {
-                if (tower.baseId == "CaptainChurchill")
-                {
-                    tower.cost = 1000;
-                }
-                if (tower.baseId == "Corvus")
-                {
-                    tower.cost = 2000;
-                }
 
                 //Range tester
                 if (tower.baseId == "IceMonkey" && tower.HasUpgrade(1, 3))
@@ -71,7 +66,17 @@ public class OhioMod : BloonsTD6Mod
                     {
                         try
                         {
+                            bev.Cast<FreezeNearbyWaterModel>().radius *= (float)1.5;
+
+                        }
+                        catch
+                        {
+
+                        }
+                        try
+                        {
                             bev.Cast<AttackModel>().range *= (float)1.5;
+
                         }
                         catch
                         {
@@ -82,250 +87,71 @@ public class OhioMod : BloonsTD6Mod
                 }
             }
 
-            foreach (UpgradeModel upgrade in Game.instance.model.upgrades)
-            {
-                //Cost tester
-                if (upgrade.name == "Super Monkey Fan Club")
-                {
-                    upgrade.cost = 3000;
-                }
-                if (upgrade.name == "Plasma Monkey Fan Club")
-                {
-                    upgrade.cost = 35000;
-                }
-                if (upgrade.name == "Crossbow Master")
-                {
-                    upgrade.cost = 20000;
-                }
-                if (upgrade.name == "Glaive Lord")
-                {
-                    upgrade.cost = 32000;
-                }
-                if (upgrade.name == "MOAB Eliminator")
-                {
-                    upgrade.cost = 25000;
-                }
-                if (upgrade.name == "Snowstorm")
-                {
-                    upgrade.cost = 3000;
-                }
-                if (upgrade.name == "Absolute Zero")
-                {
-                    upgrade.cost = 16000;
-                }
-                if (upgrade.name == "Cryo Cannon")
-                {
-                    upgrade.cost = 1750;
-                }
-                if (upgrade.name == "Icicles")
-                {
-                    upgrade.cost = 2000;
-                }
-                if (upgrade.name == "The Bloon Solver")
-                {
-                    upgrade.cost = 25000;
-                }
-                if (upgrade.name == "Glue Storm")
-                {
-                    upgrade.cost = 15000;
-                }
-                if (upgrade.name == "MOAB Glue")
-                {
-                    upgrade.cost = 4000;
-                }
-                if (upgrade.name == "Maim MOAB")
-                {
-                    upgrade.cost = 5000;
-                }
-                if (upgrade.name == "Elite Defender")
-                {
-                    upgrade.cost = 12000;
-                }
-                if (upgrade.name == "Energizer")
-                {
-                    upgrade.cost = 28000;
-                }
-                if (upgrade.name == "Buccaneer-Carrier Flagship")
-                {
-                    upgrade.cost = 26000;
-                }
-                if (upgrade.name == "Ground Zero")
-                {
-                    upgrade.cost = 14000;
-                }
-                if (upgrade.name == "Tsar Bomba")
-                {
-                    upgrade.cost = 32000;
-                }
-                if (upgrade.name == "Neva-Miss Targeting")
-                {
-                    upgrade.cost = 2000;
-                }
-                if (upgrade.name == "Spectre")
-                {
-                    upgrade.cost = 24000;
-                }
-                if (upgrade.name == "Flying Fortress")
-                {
-                    upgrade.cost = 75000;
-                }
-                if (upgrade.name == "Apache Dartship")
-                {
-                    upgrade.cost = 12000;
-                }
-                if (upgrade.name == "Apache Prime")
-                {
-                    upgrade.cost = 50000;
-                }
-                if (upgrade.name == "Support Chinook")
-                {
-                    upgrade.cost = 6000;
-                }
-                if (upgrade.name == "Special Poperations")
-                {
-                    upgrade.cost = 25000;
-                }
-                if (upgrade.name == "MOAB Shove")
-                {
-                    upgrade.cost = 3500;
-                }
-                if (upgrade.name == "Shattering Shells")
-                {
-                    upgrade.cost = 6000;
-                }
-                if (upgrade.name == "Laser Cannon")
-                {
-                    upgrade.cost = 3500;
-                }
-                if (upgrade.name == "Plasma Accelerator")
-                {
-                    upgrade.cost = 9000;
-                }
-                if (upgrade.name == "Hydra Rocket Pods")
-                {
-                    upgrade.cost = 4000;
-                }
-                if (upgrade.name == "Rocket Storm")
-                {
-                    upgrade.cost = 4000;
-                }
-                if (upgrade.name == "Buckshot")
-                {
-                    upgrade.cost = 0;
-                }
-                if (upgrade.name == "Bloon Area Denial System")
-                {
-                    upgrade.cost = 15500;
-                }
-                if (upgrade.name == "Summon Phoenix")
-                {
-                    upgrade.cost = 4500;
-                }
-                if (upgrade.name == "Laser Blasts")
-                {
-                    upgrade.cost = 1000;
-                }
-                if (upgrade.name == "Sun Avatar")
-                {
-                    upgrade.cost = 17500;
-                }
-                if (upgrade.name == "Epic Range")
-                {
-                    upgrade.cost = 2000;
-                }
-                if (upgrade.name == "Knockback")
-                {
-                    upgrade.cost = 4000;
-                }
-                if (upgrade.name == "Bloon Sabotage")
-                {
-                    upgrade.cost = 6000;
-                }
-                if (upgrade.name == "Transforming Tonic")
-                {
-                    upgrade.cost = 3500;
-                }
-                if (upgrade.name == "Total Transformation")
-                {
-                    upgrade.cost = 35000;
-                }
-                if (upgrade.name == "Bloon Master Alchemist")
-                {
-                    upgrade.cost = 20000;
-                }
-                if (upgrade.name == "Abyss Dweller")
-                {
-                    upgrade.cost = 1000;
-                }
-                if (upgrade.name == "Abyssal Warrior")
-                {
-                    upgrade.cost = 2500;
-                }
-                if (upgrade.name == "Lord of the Abyss")
-                {
-                    upgrade.cost = 22000;
-                }
-                if (upgrade.name == "Riptide Champion")
-                {
-                    upgrade.cost = 1500;
-                }
-                if (upgrade.name == "Arctic Knight")
-                {
-                    upgrade.cost = 5555;
-                }
-                if (upgrade.name == "Popseidon")
-                {
-                    upgrade.cost = 55000;
-                }
-                if (upgrade.name == "Alluring Melody")
-                {
-                    upgrade.cost = 1400;
-                }
-                if (upgrade.name == "Symphonic Resonance")
-                {
-                    upgrade.cost = 6000;
-                }
-                if (upgrade.name == "Long Life Spikes")
-                {
-                    upgrade.cost = 800;
-                }
-                if (upgrade.name == "Deadly Spikes")
-                {
-                    upgrade.cost = 2500;
-                }
-                if (upgrade.name == "Perma-Spike")
-                {
-                    upgrade.cost = 32000;
-                }
-                if (upgrade.name == "Monkey Intelligence Bureau")
-                {
-                    upgrade.cost = 4000;
-                }
-                if (upgrade.name == "Homeland Defense")
-                {
-                    upgrade.cost = 30000;
-                }
-                if (upgrade.name == "Sentry Champion")
-                {
-                    upgrade.cost = 28000;
-                }
-                if (upgrade.name == "Ultraboost")
-                {
-                    upgrade.cost = 37000;
-                }
-                if (upgrade.name == "Megalodon")
-                {
-                    upgrade.cost = 25000;
-                }
-                if (upgrade.name == "Giant Condor")
-                {
-                    upgrade.cost = 12500;
-                }
-                if (upgrade.name == "Pouakai")
-                {
-                    upgrade.cost = 12500;
-                }
-            }
+            //Cost Changes
+            models.GetTowerFromId("Mermonkey").cost = 400;
+            models.GetTowerFromId("CaptainChurchill").cost = 1000;
+            models.GetTowerFromId("Corvus").cost = 2000;
+            models.GetUpgrade("Super Monkey Fan Club").cost = 3000;
+            models.GetUpgrade("Plasma Monkey Fan Club").cost = 35000;
+            models.GetUpgrade("Crossbow Master").cost = 20000;
+            models.GetUpgrade("Glaive Lord").cost = 32000;
+            models.GetUpgrade("MOAB Eliminator").cost = 25000;
+            models.GetUpgrade("Snowstorm").cost = 3000;
+            models.GetUpgrade("Absolute Zero").cost = 16000;
+            models.GetUpgrade("Cryo Cannon").cost = 1750;
+            models.GetUpgrade("Icicles").cost = 2000;
+            models.GetUpgrade("The Bloon Solver").cost = 25000;
+            models.GetUpgrade("Glue Storm").cost = 15000;
+            models.GetUpgrade("MOAB Glue").cost = 4000;
+            models.GetUpgrade("Elite Sniper").cost = 12000;
+            models.GetUpgrade("Elite Defender").cost = 12000;
+            models.GetUpgrade("Energizer").cost = 28000;
+            models.GetUpgrade("Buccaneer-Carrier Flagship").cost = 26000;
+            models.GetUpgrade("Ground Zero").cost = 14000;
+            models.GetUpgrade("Tsar Bomba").cost = 32000;
+            models.GetUpgrade("Neva-Miss Targeting").cost = 2000;
+            models.GetUpgrade("Spectre").cost = 24000;
+            models.GetUpgrade("Flying Fortress").cost = 75000;
+            models.GetUpgrade("Apache Dartship").cost = 13000;
+            models.GetUpgrade("Apache Prime").cost = 50000;
+            models.GetUpgrade("Downdraft").cost = 2500;
+            models.GetUpgrade("Support Chinook").cost = 5000;
+            models.GetUpgrade("Special Poperations").cost = 25000;
+            models.GetUpgrade("MOAB Shove").cost = 3500;
+            models.GetUpgrade("Shattering Shells").cost = 7000;
+            models.GetUpgrade("Laser Cannon").cost = 3000;
+            models.GetUpgrade("Plasma Accelerator").cost = 9000;
+            models.GetUpgrade("Hydra Rocket Pods").cost = 4000;
+            models.GetUpgrade("Rocket Storm").cost = 4000;
+            models.GetUpgrade("Buckshot").cost = 0;
+            models.GetUpgrade("Bloon Exclusion Zone").cost = 60000;
+            models.GetUpgrade("Summon Phoenix").cost = 4500;
+            models.GetUpgrade("Laser Blasts").cost = 1000;
+            models.GetUpgrade("Sun Avatar").cost = 17500;
+            models.GetUpgrade("Knockback").cost = 4000;
+            models.GetUpgrade("Bloon Sabotage").cost = 6000;
+            models.GetUpgrade("Transforming Tonic").cost = 3500;
+            models.GetUpgrade("Total Transformation").cost = 35000;
+            models.GetUpgrade("Bloon Master Alchemist").cost = 20000;
+            models.GetUpgrade("Abyss Dweller").cost = 1000;
+            models.GetUpgrade("Abyssal Warrior").cost = 3000;
+            models.GetUpgrade("Lord of the Abyss").cost = 22000;
+            models.GetUpgrade("Riptide Champion").cost = 555;
+            models.GetUpgrade("Arctic Knight").cost = 5555;
+            models.GetUpgrade("Popseidon").cost = 55555;
+            models.GetUpgrade("Alluring Melody").cost = 1400;
+            models.GetUpgrade("Symphonic Resonance").cost = 6000;
+            models.GetUpgrade("Long Life Spikes").cost = 800;
+            models.GetUpgrade("Deadly Spikes").cost = 2500;
+            models.GetUpgrade("Perma-Spike").cost = 32000;
+            models.GetUpgrade("Monkey Intelligence Bureau").cost = 4000;
+            models.GetUpgrade("Homeland Defense").cost = 30000;
+            models.GetUpgrade("Sentry Paragon").cost = 28000;
+            models.GetUpgrade("Ultraboost").cost = 37000;
+            models.GetUpgrade("Megalodon").cost = 30000;
+            models.GetUpgrade("Giant Condor").cost = 12500;
+            models.GetUpgrade("Pouakai").cost = 12500;
+            
         }
     }
 
