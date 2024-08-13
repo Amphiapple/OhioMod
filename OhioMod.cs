@@ -1,40 +1,16 @@
 using MelonLoader;
 using BTD_Mod_Helper;
-using Harmony;
-using Il2CppSystem.Collections;
-using Il2CppAssets.Scripts.Models;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Upgrades;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Simulation;
-using Il2CppAssets.Scripts.Simulation.Objects;
-using Il2CppAssets.Scripts.Simulation.Bloons;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Unity.Bridge;
-using Il2CppAssets.Scripts.Unity.Scenes;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame.Races;
-using Il2CppAssets.Scripts.Unity.UI_New.Main;
-using Il2CppAssets.Scripts.Unity.UI_New.Popups;
-using Il2CppAssets.Scripts.Utils;
-using Il2CppTMPro;
-using System;
-using UnityEngine;
 using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using UnityEngine.UIElements;
-using Il2CppAssets.Scripts.Unity.Towers;
-using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
+using OhioMod;
+using Harmony;
+using System;
 using System.Text.RegularExpressions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles;
-using System.Linq;
-using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity.Scenes;
+using Il2Cpp;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
@@ -57,104 +33,77 @@ public class OhioMod : BloonsTD6Mod
         [HarmonyPostfix]
         public static void Postfix()
         {
+            SuperMonkey();
+        }
+    }
+    private static void SuperMonkey()
+    {
+        var models = Game.instance.model;
 
-            var models = Game.instance.model;
+        models.GetUpgrade("Knockback").cost = 2000;
+        models.GetUpgrade("Dark Knight").cost = 6500;
 
-            foreach (TowerModel tower in Game.instance.model.towers)
+        foreach (TowerModel tower in Game.instance.model.towers)
+        {
+            if (Regex.IsMatch(tower.name, "SuperMonkey-..[1-2]"))
             {
-                //Duration and Cooldown tester
-                if (Regex.IsMatch(tower.name, "TackShooter-.5."))
+                foreach (var w in tower.GetWeapons())
                 {
-                    foreach (var a in tower.GetAbilities())
-                    {
-                        a.cooldown *= 2;
-                        foreach (var b in a.behaviors)
-                        {
-                            try
-                            {
-                                b.Cast<ActivateAttackModel>().lifespan *= 4;
-                                
-                            }
-                            catch
-                            {
-
-                            }
-                            
-                        }
-                    }
-                }
-
-                //Damage tester
-                if (Regex.IsMatch(tower.name, "DartMonkey-..[3-5]"))
-                {
-                    foreach (var w in tower.GetWeapons())
-                    {
-                        w.projectile.GetDamageModel().damage *= 10;
-                    }
-                }
-                if (Regex.IsMatch(tower.name, "DartMonkey-..[4-5]"))
-                {
-                    foreach (var w in tower.GetWeapons())
-                    {
-                        foreach (var b in w.behaviors)
-                        {
-                            try
-                            {
-                                b.Cast<CritMultiplierModel>().damage *= 10;
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                        
-                    }
-                }
-
-                //Pierce tester
-                if (Regex.IsMatch(tower.name, "DartMonkey-[1-5].."))
-                {
-                    foreach (var w in tower.GetWeapons())
-                    {
-                        w.projectile.pierce += 100;
-                    }
-                }
-
-                //Rate tester
-                if (Regex.IsMatch(tower.name, "DartMonkey-.[1-5]."))
-                {
-                    foreach (var w in tower.GetWeapons())
-                    {
-                        w.rate *= 0.1f;
-                    }
-                }
-
-                //Range tester
-                if (Regex.IsMatch(tower.name, "DartMonkey-..[1-5]"))
-                {
-                    tower.range *= 1.5f;
-
-                    foreach (var bev in tower.behaviors)
+                    foreach (var b in w.projectile.behaviors)
                     {
                         try
                         {
-                            bev.Cast<AttackModel>().range *= 1.5f;
+                            b.Cast<KnockbackModel>().lightMultiplier = 1.2f;
+                            b.Cast<KnockbackModel>().moabMultiplier = 0.2f;
                         }
                         catch
                         {
 
                         }
+                    }
+                }
+            }
+
+            if (Regex.IsMatch(tower.name, "SuperMonkey-3.."))
+            {
+                foreach (var w in tower.GetWeapons())
+                {
+                    try
+                    {
+                        w.emission.Cast<RandomArcEmissionModel>().count = 4;
+                    }
+                    catch
+                    {
 
                     }
                 }
-                
             }
 
-            //Cost tester
-            models.GetTowerFromId("DartMonkey").cost = 100;
-            models.GetUpgrade("Plasma Monkey Fan Club").cost = 35000;
-            
+            if (Regex.IsMatch(tower.name, "SuperMonkey-.[3-5]."))
+            {
+                foreach (var w in tower.GetWeapons())
+                {
+                    w.projectile.pierce += 1;
+                }
+            }
+
+            if (Regex.IsMatch(tower.name, "SuperMonkey-..[3-5]"))
+            {
+                foreach (var w in tower.GetWeapons())
+                {
+                    foreach (var b in w.projectile.behaviors)
+                    {
+                        try
+                        {
+                            b.Cast<KnockbackModel>().lightMultiplier = 1.3f;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
         }
     }
-
 }
