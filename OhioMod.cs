@@ -1,18 +1,34 @@
 using MelonLoader;
+
 using BTD_Mod_Helper;
+
 using BTD_Mod_Helper.Extensions;
+
 using OhioMod;
+
 using Harmony;
+
 using System;
+
 using System.Text.RegularExpressions;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Unity.Scenes;
+
 using Il2Cpp;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+
+using Il2CppAssets.Scripts.Models.Towers;
+
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
 
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+
+using Il2CppAssets.Scripts.Models.Towers.Projectiles;
+
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+
+using Il2CppAssets.Scripts.Unity;
+
+using Il2CppAssets.Scripts.Unity.Scenes;
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -58,18 +74,18 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
-                foreach (var b in w.projectile.behaviors)
+                try
                 {
-                    try
-                    {
-                        b.Cast<KnockbackModel>().lightMultiplier = 1.2f;
-                        b.Cast<KnockbackModel>().moabMultiplier = 0.2f;
-                    }
-                    catch
-                    {
-
-                    }
+                    //Decrease bloon and moab knockback
+                    var b = w.GetBehavior<KnockbackModel>();
+                    b.lightMultiplier = 1.2f;
+                    b.moabMultiplier = 0.2f;
                 }
+                catch
+                {
+
+                }
+                
             }
         }
 
@@ -100,16 +116,14 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
-                foreach (var b in w.projectile.behaviors)
+                try
                 {
-                    try
-                    {
-                        b.Cast<KnockbackModel>().lightMultiplier = 1.3f;
-                    }
-                    catch
-                    {
+                    //Increase bloon knockback
+                    w.GetBehavior<KnockbackModel>().lightMultiplier = 1.3f;
+                }
+                catch
+                {
 
-                    }
                 }
             }
         }
