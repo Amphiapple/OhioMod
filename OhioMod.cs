@@ -6,7 +6,7 @@ using BTD_Mod_Helper.Extensions;
 
 using OhioMod;
 
-using Harmony;
+using HarmonyLib;
 
 using System;
 
@@ -85,7 +85,6 @@ public class OhioMod : BloonsTD6Mod
                 {
 
                 }
-                
             }
         }
 
@@ -93,9 +92,10 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
+                //Increase sun avatar projectiles
                 try
                 {
-                    w.emission.Cast<RandomArcEmissionModel>().count = 4;
+                    w.emission.GetBehavior<RandomArcEmissionModel>().count = 4;
                 }
                 catch
                 {
@@ -108,6 +108,7 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
+                //Increase robo monkey pierce
                 w.projectile.pierce += 1;
             }
         }
@@ -138,11 +139,17 @@ public class OhioMod : BloonsTD6Mod
             {
                 if (w.projectile.id == "Projectile")
                 {
+                    //Increase main attack rate
                     w.rate /= 1.5f;
+
+                    //Decrease main attack explosion delay
                     var b = w.projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>();
                     b.minimumTimeDifferenceInFrames = 2;
+
+                    //Decrease explosion damage
                     b.projectile.GetDamageModel().damage /= 1.5f;
 
+                    //Decrease explosion fortified damage
                     try
                     {
                         var c = b.projectile.GetBehavior<DamageModifierForTagModel>();
@@ -160,18 +167,16 @@ public class OhioMod : BloonsTD6Mod
 
             foreach (var a in t.GetAbilities())
             {
-                foreach (var b in a.behaviors)
+                //Fix ability damage
+                try
                 {
-                    try
-                    {
-                        var d = b.Cast<MutateProjectileOnAbilityModel>();
-                        d.damageIncrease *= 2;
-                        d.projectileBehaviorModel.Cast<DamageModifierForTagModel>().damageAddative /= 1.5f;
-                    }
-                    catch
-                    {
+                    var d = a.GetBehavior<MutateProjectileOnAbilityModel>();
+                    d.damageIncrease *= 2;
+                    d.projectileBehaviorModel.Cast<DamageModifierForTagModel>().damageAddative /= 1.5f;
+                }
+                catch
+                {
 
-                    }
                 }
             }
         }
