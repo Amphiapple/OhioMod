@@ -1,1 +1,1 @@
-Added balance changes for Super Monkey
+Added balance changes for Captain Churchill
