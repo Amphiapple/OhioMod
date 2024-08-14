@@ -151,7 +151,7 @@ public class OhioMod : BloonsTD6Mod
                     try
                     {
                         var d = b.Cast<MutateProjectileOnAbilityModel>();
-                        //d.damageIncrease *= 2;
+                        d.damageIncrease *= 2;
                         d.projectileBehaviorModel.Cast<DamageModifierForTagModel>().damageAddative /= 1.5f;
                     }
                     catch
