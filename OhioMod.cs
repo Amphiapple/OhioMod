@@ -54,7 +54,9 @@ public class OhioMod : BloonsTD6Mod
 
             foreach (TowerModel tower in Game.instance.model.towers)
             {
+                MonkeyBuccaneer(tower);
                 SuperMonkey(tower);
+                SpikeFactory(tower);
                 CaptainChurchill(tower);
             }
         }
@@ -65,6 +67,54 @@ public class OhioMod : BloonsTD6Mod
     {
         Game.instance.model.GetUpgrade("Knockback").cost = 2000;
         Game.instance.model.GetUpgrade("Dark Knight").cost = 6500;
+    }
+
+    //Boat changes
+    private static void MonkeyBuccaneer(TowerModel t)
+    {
+        EmissionModel e = null;
+        foreach (var w in Game.instance.model.GetTowerFromId("MonkeyBuccaneer-200").GetWeapons())
+        {
+            //Get double shot attack
+            if (w.name == "WeaponModel_Weapon")
+            {
+                e = w.emission;
+            }
+        }
+
+        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-23."))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                //Add double shot attack to cannon
+                if (w.name.Contains("Cannon"))
+                {
+                    w.emission = e;
+                    w.emission.Cast<ParallelEmissionModel>().spreadLength = 6;
+                }
+            }
+        }
+
+        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-2[4-5]."))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                if (w.name.Contains("Cannon"))
+                {
+                    w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().damage += 1;
+                    //Add additional cannonball
+                    try
+                    {
+                        w.emission.Cast<ArcEmissionModel>().count = 4;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                
+            }
+        }
     }
 
     //Super changes
@@ -95,7 +145,7 @@ public class OhioMod : BloonsTD6Mod
                 //Increase sun avatar projectiles
                 try
                 {
-                    w.emission.GetBehavior<RandomArcEmissionModel>().count = 4;
+                    w.emission.Cast<RandomArcEmissionModel>().count = 4;
                 }
                 catch
                 {
@@ -128,6 +178,12 @@ public class OhioMod : BloonsTD6Mod
                 }
             }
         }
+    }
+
+    //Spac changes
+    private static void SpikeFactory(TowerModel t)
+    {
+
     }
 
     //Churchill changes
