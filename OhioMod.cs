@@ -16,19 +16,16 @@ using Il2Cpp;
 
 using Il2CppAssets.Scripts.Models.Towers;
 
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
 
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-
-using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 
 using Il2CppAssets.Scripts.Unity;
 
 using Il2CppAssets.Scripts.Unity.Scenes;
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -55,6 +52,7 @@ public class OhioMod : BloonsTD6Mod
             foreach (TowerModel tower in Game.instance.model.towers)
             {
                 MonkeyBuccaneer(tower);
+                MortarMonkey(tower);
                 SuperMonkey(tower);
                 SpikeFactory(tower);
                 CaptainChurchill(tower);
@@ -95,24 +93,63 @@ public class OhioMod : BloonsTD6Mod
             }
         }
 
-        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-2[4-5]."))
+        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.[4-5]."))
         {
             foreach (var w in t.GetWeapons())
             {
                 if (w.name.Contains("Cannon"))
                 {
+                    //Increase explosion damage
                     w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().damage += 1;
-                    //Add additional cannonball
+
+                    //Add additional bomb
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.[4-5]."))
+                    {
+                        try
+                        {
+                            w.emission.Cast<ArcEmissionModel>().count = 4;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Mortar changes
+    private static void MortarMonkey(TowerModel t)
+    {
+        if (Regex.IsMatch(t.name, "MortarMonkey-..[2-5]"))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                foreach (var b in w.projectile.GetBehaviors<CreateProjectileOnExhaustFractionModel>())
+                {
                     try
                     {
-                        w.emission.Cast<ArcEmissionModel>().count = 4;
+                        //Increase burn rate
+                        var c = b.projectile.GetBehavior<AddBehaviorToBloonModel>();
+                        c.GetBehavior<DamageOverTimeModel>().interval = 0.5f;
+                        c.GetBehavior<DamageOverTimeModel>().Interval = 0.5f;
+
+                        //change burn duration
+                        if (Regex.IsMatch(t.name, "MortarMonkey-..5"))
+                        {
+                            c.lifespan = 5.1f;
+                        }
+                        else
+                        {
+                            c.lifespan = 1.6f;
+                        }
                     }
                     catch
                     {
 
                     }
                 }
-                
             }
         }
     }

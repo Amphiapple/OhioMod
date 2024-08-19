@@ -1,3 +1,14 @@
+Monkey Buccaneer
+- 230 Cannon Ship fires 2 bombs
+- 240 Monkey Pirates fires 4 bombs
+- Monkey Pirates bomb damage 3 > 4
+
+Mortar Monkey
+- xx2 Burny Stuff burn rate 1.25s > 0.5s
+- xx2 Burny Stuff burn duration 3.75s > 1.5s
+- 302 Shell Shock no longer changes burn rate or duration
+- xx5 Blooncineration burn duration 3.75s > 5.1s
+
 Super Monkey
 - xx1 Knockback bloon multiplier 125% > 120%
 - xx1 Knockback moab multiplier 30% > 20%
