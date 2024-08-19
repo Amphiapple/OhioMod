@@ -1,1 +1,1 @@
-Added balance changes for Captain Churchill
+Added balance changes for Monkey Buccaneer and Mortar Monkey

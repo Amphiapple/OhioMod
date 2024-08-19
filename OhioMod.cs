@@ -103,7 +103,7 @@ public class OhioMod : BloonsTD6Mod
                     w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().damage += 1;
 
                     //Add additional bomb
-                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.[4-5]."))
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-2[4-5]."))
                     {
                         try
                         {
