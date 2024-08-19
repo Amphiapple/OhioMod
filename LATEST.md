@@ -1,1 +1,1 @@
-Added balance changes for Monkey Buccaneer and Mortar Monkey
+Added more balance changes for Monkey Buccaneer

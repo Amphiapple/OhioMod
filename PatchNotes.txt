@@ -1,11 +1,21 @@
 Monkey Buccaneer
+- x2x Hot Shot burn rate 1.5s > 0.5s
+- x2x Hot Shot burn duration 3s > 1.6s
+- x2x Hot Shot burn damage 2 > 1
+- x3x Cannon Ship grape damage 3 > 2
 - 230 Cannon Ship fires 2 bombs
+- x4x Monkey Pirates grape damage 5 > 4
+- x4x Monkey Pirates bomb damage 3 > 4
+- x4x Monkey Pirates grape burn damage 4 > 2
 - 240 Monkey Pirates fires 4 bombs
-- Monkey Pirates bomb damage 3 > 4
+- x5x Pirate Lord grape damage remains at 8
+- x5x Pirate Lord grape burn damage 9 > 4
+- x5x Pirate Lord grape burn duration 3s > 5.1s
+- x5x Pirate Lord bomb damage 3 > 8
 
 Mortar Monkey
 - xx2 Burny Stuff burn rate 1.25s > 0.5s
-- xx2 Burny Stuff burn duration 3.75s > 1.5s
+- xx2 Burny Stuff burn duration 3.75s > 1.6s
 - 302 Shell Shock no longer changes burn rate or duration
 - xx5 Blooncineration burn duration 3.75s > 5.1s
 

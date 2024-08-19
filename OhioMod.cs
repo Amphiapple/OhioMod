@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 
 using Il2Cpp;
 
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+
 using Il2CppAssets.Scripts.Models.Towers;
 
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
@@ -25,7 +27,8 @@ using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Unity;
 
 using Il2CppAssets.Scripts.Unity.Scenes;
-using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+
+
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -63,8 +66,9 @@ public class OhioMod : BloonsTD6Mod
     //Price changes
     private static void PriceChanges()
     {
-        Game.instance.model.GetUpgrade("Knockback").cost = 2000;
-        Game.instance.model.GetUpgrade("Dark Knight").cost = 6500;
+        var models = Game.instance.model;
+        models.GetUpgrade("Knockback").cost = 2000;
+        models.GetUpgrade("Dark Knight").cost = 6500;
     }
 
     //Boat changes
@@ -73,46 +77,123 @@ public class OhioMod : BloonsTD6Mod
         EmissionModel e = null;
         foreach (var w in Game.instance.model.GetTowerFromId("MonkeyBuccaneer-200").GetWeapons())
         {
-            //Get double shot attack
+            //Get double shot emission
             if (w.name == "WeaponModel_Weapon")
             {
                 e = w.emission;
             }
         }
 
-        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-23."))
+        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.[2-5]."))
         {
             foreach (var w in t.GetWeapons())
             {
-                //Add double shot attack to cannon
-                if (w.name.Contains("Cannon"))
+                //Get grape shot weapon
+                if (w.name.Contains("Grape"))
                 {
-                    w.emission = e;
-                    w.emission.Cast<ParallelEmissionModel>().spreadLength = 6;
+                    try
+                    {
+                        //Increase hot shot burn rate
+                        var b = w.projectile.GetBehavior<AddBehaviorToBloonModel>();
+                        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.5."))
+                        {
+                            b.lifespan = 5.1f;
+                        }
+                        else
+                        {
+                            b.lifespan = 1.6f;
+                        }
+
+                        //Decrease hot shot burn duration and damage
+                        var d = b.GetBehavior<DamageOverTimeModel>();
+                        d.damage = 1;
+                        d.interval = 0.5f;
+                        d.Interval = 0.5f;
+                    }
+                    catch
+                    {
+
+                    }
+
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.3."))
+                    {
+                        //Decrease cannon ship grape damage
+                        w.projectile.GetDamageModel().damage = 2;
+                    }
+
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.4."))
+                    {
+                        //Decrease monkey pirates grape damage
+                        w.projectile.GetDamageModel().damage = 4;
+
+                        try
+                        {
+                            //Increase monkey pirates burn damage
+                            w.projectile.GetBehavior<AddBehaviorToBloonModel>().GetBehavior<DamageOverTimeModel>().damage = 2;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.5."))
+                    {
+                        try
+                        {
+                            //Increase pirate lord burn damage
+                            w.projectile.GetBehavior<AddBehaviorToBloonModel>().GetBehavior<DamageOverTimeModel>().damage = 4;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
                 }
-            }
-        }
 
-        if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.[4-5]."))
-        {
-            foreach (var w in t.GetWeapons())
-            {
+                //Get cannon weapon
                 if (w.name.Contains("Cannon"))
                 {
-                    //Increase explosion damage
-                    w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().damage += 1;
 
-                    //Add additional bomb
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-23."))
+                    {
+                        try
+                        {
+                            //Increase double shot cannon ship projectiles
+                            w.emission = e;
+                            w.emission.Cast<ParallelEmissionModel>().spreadLength = 6;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
                     if (Regex.IsMatch(t.name, "MonkeyBuccaneer-2[4-5]."))
                     {
                         try
                         {
+                            //Increase double shot monkey pirates projectiles
                             w.emission.Cast<ArcEmissionModel>().count = 4;
                         }
                         catch
                         {
 
                         }
+                    }
+
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.4."))
+                    {
+                        //Increase monkey pirates bomb damage
+                        var p = w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile;
+                        p.GetDamageModel().damage = 4;
+                    }
+
+                    if (Regex.IsMatch(t.name, "MonkeyBuccaneer-.5."))
+                    {
+                        //Increase monkey pirates bomb damage
+                        var p = w.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile;
+                        p.GetDamageModel().damage = 8;
                     }
                 }
             }
@@ -126,16 +207,13 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
+                //Get burn projectiles
                 foreach (var b in w.projectile.GetBehaviors<CreateProjectileOnExhaustFractionModel>())
                 {
                     try
                     {
-                        //Increase burn rate
+                        //change burny stuff burn duration
                         var c = b.projectile.GetBehavior<AddBehaviorToBloonModel>();
-                        c.GetBehavior<DamageOverTimeModel>().interval = 0.5f;
-                        c.GetBehavior<DamageOverTimeModel>().Interval = 0.5f;
-
-                        //change burn duration
                         if (Regex.IsMatch(t.name, "MortarMonkey-..5"))
                         {
                             c.lifespan = 5.1f;
@@ -144,6 +222,11 @@ public class OhioMod : BloonsTD6Mod
                         {
                             c.lifespan = 1.6f;
                         }
+
+                        //Increase burny stuff burn rate
+                        var d = c.GetBehavior<DamageOverTimeModel>();
+                        d.interval = 0.5f;
+                        d.Interval = 0.5f;
                     }
                     catch
                     {
@@ -179,9 +262,9 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
-                //Increase sun avatar projectiles
                 try
                 {
+                    //Increase sun avatar projectiles
                     w.emission.Cast<RandomArcEmissionModel>().count = 4;
                 }
                 catch
@@ -196,7 +279,7 @@ public class OhioMod : BloonsTD6Mod
             foreach (var w in t.GetWeapons())
             {
                 //Increase robo monkey pierce
-                w.projectile.pierce += 1;
+                w.projectile.pierce = 6;
             }
         }
 
