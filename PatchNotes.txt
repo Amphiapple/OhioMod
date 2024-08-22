@@ -29,7 +29,23 @@ Super Monkey
 - xx3 Dark Knight moab multiplier remains at 30%
 - xx3 Dark Knight price $5600 > $6500
 
+Mermonkey
+- xx1 Echosense Precision projectile turn rate 260 > 360
+- 031 Echosense Precision projectile turn rate 130 > 180
+- x3x Riptide Champion main attack and split attack damage 4 > 6
+- x3x Riptide Champion main attack and split frozen damage +2 > +3
+- x3x Riptide Champion main attack and split damage type energy > plasma
+- x3x Riptide Champion main attack pierce 8 > 14
+- x3x Riptide Champion split attack pierce 8 > 12
+- x3x Riptide Champion main attack scaling per second 50% > 75%
+- x3x Riptide Champion main attack freeze duration 0.3s > 0.5s
+- x4x Arctic Knight ability projectiles now rebounds off map boundaries
+- 240 Arctic Knight ability projectiles lifespan is no longer reduced
+- 050 Popseidon main attack spread angle 60 > 45
+- 050 Popseidon main attack no longer counts as 2 attacks
+
 Captain Churchill
+- Cannon explosion delay 3 > 2
 - Lv1 Cannon damage 3 > 2
 - Lv7 Cannon damage 6 > 4
 - Lv12 Cannon damage 9 > 6

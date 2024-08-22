@@ -28,6 +28,8 @@ using Il2CppAssets.Scripts.Unity;
 
 using Il2CppAssets.Scripts.Unity.Scenes;
 
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+
 
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
@@ -46,7 +48,6 @@ public class OhioMod : BloonsTD6Mod
     [HarmonyPatch(typeof(TitleScreen), "Start")]
     public class Awake_Patch
     {
-
         [HarmonyPostfix]
         public static void Postfix()
         {
@@ -57,7 +58,7 @@ public class OhioMod : BloonsTD6Mod
                 MonkeyBuccaneer(tower);
                 MortarMonkey(tower);
                 SuperMonkey(tower);
-                SpikeFactory(tower);
+                Mermonkey(tower);
                 CaptainChurchill(tower);
             }
         }
@@ -108,7 +109,6 @@ public class OhioMod : BloonsTD6Mod
                         var d = b.GetBehavior<DamageOverTimeModel>();
                         d.damage = 1;
                         d.interval = 0.5f;
-                        d.Interval = 0.5f;
                     }
                     catch
                     {
@@ -154,7 +154,6 @@ public class OhioMod : BloonsTD6Mod
                 //Get cannon weapon
                 if (w.name.Contains("Cannon"))
                 {
-
                     if (Regex.IsMatch(t.name, "MonkeyBuccaneer-23."))
                     {
                         try
@@ -226,7 +225,6 @@ public class OhioMod : BloonsTD6Mod
                         //Increase burny stuff burn rate
                         var d = c.GetBehavior<DamageOverTimeModel>();
                         d.interval = 0.5f;
-                        d.Interval = 0.5f;
                     }
                     catch
                     {
@@ -300,10 +298,128 @@ public class OhioMod : BloonsTD6Mod
         }
     }
 
-    //Spac changes
-    private static void SpikeFactory(TowerModel t)
+    //Merm changes
+    private static void Mermonkey(TowerModel t)
     {
+        MapBorderReboundModel b = null;
+        var a = Game.instance.model.GetTowerFromId("Mermonkey-050").GetAbility();
+        foreach (var c in a.GetBehavior<ActivateAttackModel>().attacks[0].weapons)
+        {
+            if (c.name == "WeaponModel_Weapon")
+            {
+                //Increase arctic knight ability lifespan
+                c.projectile.GetBehavior<TravelStraitModel>().lifespan = 15;
 
+                //Get map border bouncing model
+                b = c.projectile.GetBehavior<MapBorderReboundModel>();
+            }
+        }
+
+        if (Regex.IsMatch(t.name, "Mermonkey-..1"))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                try
+                {
+                    //Increase echosence precision turn rate
+                    if (Regex.IsMatch(t.name, "Mermonkey-.[3-5][1-2]"))
+                    {
+                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 180;
+                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 180;
+                    }
+                    else
+                    {
+                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 360;
+                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 360;
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+        }
+        
+        if (Regex.IsMatch(t.name, "Mermonkey-.5."))
+        {
+            try
+            {
+                foreach (var w in t.GetWeapons())
+                {
+                    //Remove one weapon, add projectile to other weapon
+                    if (w.name == "WeaponModel_Weapon")
+                    {
+                        t.GetBehavior<AttackModel>().RemoveWeapon(w);
+                    }
+                    else if (w.name == "WeaponModel_Weapon2")
+                    {
+                        var e = w.emission.Cast<ArcEmissionModel>();
+                        e.count = 3;
+                        e.angle = 45;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        if (Regex.IsMatch(t.name, "Mermonkey-.4."))
+        {
+            try
+            {
+                //Add arctic knight map border bouncing 
+                var p = t.GetAbility().GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].projectile;
+                p.AddBehavior(b);
+                p.GetBehavior<TravelStraitModel>().lifespan = 10;
+            }
+            catch
+            {
+
+            }
+        }
+
+        if (Regex.IsMatch(t.name, "Mermonkey-.3."))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                //Increase riptide champion pierce
+                w.projectile.pierce = 14;
+                w.projectile.CapPierce(14);
+                try
+                {
+                    //Increase riptide scaling
+                    w.GetBehavior<ScaleDamageWithTimeModel>().scalePerSecond = 0.75f;
+
+                    //Increase riptide champion freeze duration and damage
+                    w.GetBehavior<FreezeModel>().lifespan = 0.5f;
+                    w.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
+
+                    //Increase riptide champion damage and give plasma damage type
+                    var d = w.projectile.GetDamageModel();
+                    d.damage = 6;
+                    d.CapDamage(6);
+                    d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
+                    d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
+
+                    //Increase riptide champion split strength
+                    var p = w.GetBehavior<ScaleProjectileOverTimeModel>().bonusProjectileModel;
+                    p.pierce = 12;
+                    p.CapPierce(12);
+                    p.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
+                    d = w.projectile.GetDamageModel();
+                    d.damage = 6;
+                    d.CapDamage(6);
+                    d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
+                    d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
+                }
+                catch
+                {
+
+                }
+            }
+        }
     }
 
     //Churchill changes

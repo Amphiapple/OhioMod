@@ -1,1 +1,1 @@
-Added more balance changes for Monkey Buccaneer
+Added balance changes for Mermonkey
