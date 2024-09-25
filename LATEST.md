@@ -1,1 +1,1 @@
-Added balance changes for Mermonkey
+Added balance changes for Monkey Ace

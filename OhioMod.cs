@@ -30,6 +30,8 @@ using Il2CppAssets.Scripts.Unity.Scenes;
 
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 
+using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
+
 
 
 [assembly: MelonInfo(typeof(OhioMod.OhioMod), OhioMod.ModHelperData.Name, OhioMod.ModHelperData.Version, OhioMod.ModHelperData.RepoOwner)]
@@ -55,7 +57,10 @@ public class OhioMod : BloonsTD6Mod
 
             foreach (TowerModel tower in Game.instance.model.towers)
             {
+                DartMonkey(tower);
+                TackShooter(tower);
                 MonkeyBuccaneer(tower);
+                MonkeyAce(tower);
                 MortarMonkey(tower);
                 SuperMonkey(tower);
                 Mermonkey(tower);
@@ -68,8 +73,34 @@ public class OhioMod : BloonsTD6Mod
     private static void PriceChanges()
     {
         var models = Game.instance.model;
+        models.GetUpgrade("Neva-Miss Targeting").cost = 2000;
+        models.GetUpgrade("Spectre").cost = 24000;
+        models.GetUpgrade("Flying Fortress").cost = 80000;
         models.GetUpgrade("Knockback").cost = 2000;
         models.GetUpgrade("Dark Knight").cost = 6500;
+    }
+
+    //Dart changes
+    private static void DartMonkey(TowerModel t)
+    {
+
+    }
+
+    //Tack changes
+    private static void TackShooter(TowerModel t)
+    {
+        if (Regex.IsMatch(t.name, "TackShooter-.[4-5]."))
+        {
+            try
+            {
+                t.GetAbility().GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].GetBehavior<SpinModel>().rotationPerSecond = 120;
+                t.GetAbility().GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].emission.Cast<ArcEmissionModel>().count = 1;
+            }
+            catch
+            {
+
+            }
+        }
     }
 
     //Boat changes
@@ -199,6 +230,28 @@ public class OhioMod : BloonsTD6Mod
         }
     }
 
+    //Ace changes
+    private static void MonkeyAce(TowerModel t)
+    {
+        if (Regex.IsMatch(t.name, "MonkeyAce-..[3-5]"))
+        {
+            foreach (var w in t.GetWeapons())
+            {
+                if (w.projectile.name == "ProjectileModel_MainProjectile")
+                {
+                    try
+                    {
+                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 360;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            }
+        }
+    }
+
     //Mortar changes
     private static void MortarMonkey(TowerModel t)
     {
@@ -225,6 +278,28 @@ public class OhioMod : BloonsTD6Mod
                         //Increase burny stuff burn rate
                         var d = c.GetBehavior<DamageOverTimeModel>();
                         d.interval = 0.5f;
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        if (b.projectile.name == "ProjectileModel_WallOfFire")
+                        {
+                            if (Regex.IsMatch(t.name, "MortarMonkey-[1-2].5"))
+                            {
+                                b.projectile.scale = 2;
+                                b.projectile.radius = 35;
+                            }
+                            else if (Regex.IsMatch(t.name, "MortarMonkey-..5"))
+                            {
+                                b.projectile.scale = 1.5f;
+                                b.projectile.radius = 25;
+                            }
+                            
+                        }
                     }
                     catch
                     {
@@ -324,13 +399,13 @@ public class OhioMod : BloonsTD6Mod
                     //Increase echosence precision turn rate
                     if (Regex.IsMatch(t.name, "Mermonkey-.[3-5][1-2]"))
                     {
-                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 180;
-                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 180;
+                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 150;
+                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 150;
                     }
                     else
                     {
-                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 360;
-                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 360;
+                        w.projectile.GetBehavior<TrackTargetModel>().turnRate = 300;
+                        w.projectile.GetBehavior<TrackTargetModel>().TurnRate = 300;
                     }
                 }
                 catch
@@ -372,7 +447,7 @@ public class OhioMod : BloonsTD6Mod
                 //Add arctic knight map border bouncing 
                 var p = t.GetAbility().GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].projectile;
                 p.AddBehavior(b);
-                p.GetBehavior<TravelStraitModel>().lifespan = 10;
+                p.GetBehavior<TravelStraitModel>().lifespan = 5;
             }
             catch
             {
@@ -384,39 +459,44 @@ public class OhioMod : BloonsTD6Mod
         {
             foreach (var w in t.GetWeapons())
             {
-                //Increase riptide champion pierce
-                w.projectile.pierce = 14;
-                w.projectile.CapPierce(14);
-                try
+                var p = w.projectile;
+                if (p.id == "Projectile")
                 {
-                    //Increase riptide scaling
-                    w.GetBehavior<ScaleDamageWithTimeModel>().scalePerSecond = 0.75f;
+                    //Increase riptide champion pierce
+                    p.CapPierce(0);
+                    p.pierce = 14;
 
-                    //Increase riptide champion freeze duration and damage
-                    w.GetBehavior<FreezeModel>().lifespan = 0.5f;
-                    w.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
+                    try
+                    {
+                        //Increase riptide scaling
+                        p.GetBehavior<ScaleDamageWithTimeModel>().scalePerSecond = 0.75f;
 
-                    //Increase riptide champion damage and give plasma damage type
-                    var d = w.projectile.GetDamageModel();
-                    d.damage = 6;
-                    d.CapDamage(6);
-                    d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
-                    d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
+                        //Increase riptide champion freeze duration and damage
+                        p.GetBehavior<FreezeModel>().lifespan = 0.5f;
+                        p.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
 
-                    //Increase riptide champion split strength
-                    var p = w.GetBehavior<ScaleProjectileOverTimeModel>().bonusProjectileModel;
-                    p.pierce = 12;
-                    p.CapPierce(12);
-                    p.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
-                    d = w.projectile.GetDamageModel();
-                    d.damage = 6;
-                    d.CapDamage(6);
-                    d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
-                    d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
-                }
-                catch
-                {
+                        //Increase riptide champion damage and give plasma damage type
+                        var d = p.GetDamageModel();
+                        d.CapDamage(0);
+                        d.damage = 6;
+                        d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
+                        d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
 
+                        //Increase riptide champion split strength
+                        p = p.GetBehavior<ScaleProjectileOverTimeModel>().bonusProjectileModel;
+                        p.CapPierce(0);
+                        p.pierce = 12;
+                        p.GetBehavior<DamageModifierForBloonStateModel>().damageAdditive = 3;
+                        d = w.projectile.GetBehavior<ScaleProjectileOverTimeModel>().bonusProjectileModel.GetDamageModel();
+                        d.CapDamage(0);
+                        d.damage = 6;
+                        d.immuneBloonProperties = (Il2Cpp.BloonProperties)8;
+                        d.immuneBloonPropertiesOriginal = (Il2Cpp.BloonProperties)8;
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
         }

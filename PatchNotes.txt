@@ -13,6 +13,12 @@ Monkey Buccaneer
 - x5x Pirate Lord grape burn duration 3s > 5.1s
 - x5x Pirate Lord bomb damage 3 > 8
 
+Monkey Ace
+- Neva-Miss Targeting projectile turn rate 130 > 360
+- Neva-Miss Targeting price $2550 > $2000
+- Spectre price $23400 > $24000
+- Flying Fortress price $85000 > $80000
+
 Mortar Monkey
 - xx2 Burny Stuff burn rate 1.25s > 0.5s
 - xx2 Burny Stuff burn duration 3.75s > 1.6s
@@ -30,8 +36,8 @@ Super Monkey
 - xx3 Dark Knight price $5600 > $6500
 
 Mermonkey
-- xx1 Echosense Precision projectile turn rate 260 > 360
-- 031 Echosense Precision projectile turn rate 130 > 180
+- xx1 Echosense Precision projectile turn rate 260 > 300
+- 031 Echosense Precision projectile turn rate 130 > 150
 - x3x Riptide Champion main attack and split attack damage 4 > 6
 - x3x Riptide Champion main attack and split frozen damage +2 > +3
 - x3x Riptide Champion main attack and split damage type energy > plasma
@@ -40,6 +46,7 @@ Mermonkey
 - x3x Riptide Champion main attack scaling per second 50% > 75%
 - x3x Riptide Champion main attack freeze duration 0.3s > 0.5s
 - x4x Arctic Knight ability projectiles now rebounds off map boundaries
+- x4x Arctic Knight ability projectiles lifespan 10s > 5s
 - 240 Arctic Knight ability projectiles lifespan is no longer reduced
 - 050 Popseidon main attack spread angle 60 > 45
 - 050 Popseidon main attack no longer counts as 2 attacks
