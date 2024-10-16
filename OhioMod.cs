@@ -31,6 +31,7 @@ using Il2CppAssets.Scripts.Unity.Scenes;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 
 using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
 
 
 
@@ -64,6 +65,7 @@ public class OhioMod : BloonsTD6Mod
                 MortarMonkey(tower);
                 SuperMonkey(tower);
                 Mermonkey(tower);
+                BeastHandler(tower);
                 CaptainChurchill(tower);
             }
         }
@@ -83,7 +85,7 @@ public class OhioMod : BloonsTD6Mod
     //Dart changes
     private static void DartMonkey(TowerModel t)
     {
-
+        
     }
 
     //Tack changes
@@ -502,9 +504,30 @@ public class OhioMod : BloonsTD6Mod
         }
     }
 
+    //Beast changes
+    private static void BeastHandler(TowerModel t)
+    {
+        if (Regex.IsMatch(t.name, "BeastHandler-5.."))
+        {
+            try
+            {
+                var p = t.GetBehavior<BeastHandlerLeashModel>().towerModel;
+                p.GetBehavior<BeastHandlerPetModel>().damageRange = 1200;
+                var a = p.GetWeapon(0).projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<CreateGreatWhiteEffectModel>();
+                a.thrashingProjectileModel.GetBehavior<DamageModel>().damage = 1050;
+                a.bloonFollowProjectileModel.GetBehavior<CreateProjectileOnIntervalModel>().projectile.GetBehavior<DamageModel>().damage = 1050;
+            }
+            catch
+            {
+
+            }
+        }
+    }
+
     //Churchill changes
     private static void CaptainChurchill(TowerModel t)
     {
+        /*
         if (Regex.IsMatch(t.name, "CaptainChurchill"))
         {
             foreach (var w in t.GetWeapons())
@@ -552,5 +575,6 @@ public class OhioMod : BloonsTD6Mod
                 }
             }
         }
+        */
     }
 }

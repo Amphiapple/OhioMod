@@ -1,1 +1,1 @@
-Added balance changes for Monkey Ace
+Removed balance changes for Captain Churchill

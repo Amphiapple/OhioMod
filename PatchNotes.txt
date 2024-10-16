@@ -52,6 +52,7 @@ Mermonkey
 - 050 Popseidon main attack no longer counts as 2 attacks
 
 Captain Churchill
+(Temporarily removed)
 - Cannon explosion delay 3 > 2
 - Lv1 Cannon damage 3 > 2
 - Lv7 Cannon damage 6 > 4
